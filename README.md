@@ -1,6 +1,6 @@
 # Complaints and Suggestions Web App
 
-Welcome to our Complaints and Suggestions app – a powerful CRUD (Create, Read, Update, Delete) application developed with PHP for the backend, MySQLi for seamless MySQL interactions, and Bootstrap 5.3.2 for an elegant frontend. Our codebase is meticulously organized for clarity, with extensive comments for easy understanding and customization.
+Welcome to the Complaints and Suggestions app, a powerful CRUD (Create, Read, Update, Delete) application developed with PHP for the backend, MySQLi for seamless MySQL interactions, and Bootstrap 5.3.2 for an elegant frontend. The codebase is meticulously organized for clarity, with extensive comments for easy understanding and customization.
 
 - [Complaints and Suggestions Web App](#complaints-and-suggestions-web-app)
   - [Key Technologies](#key-technologies)
@@ -18,7 +18,7 @@ Welcome to our Complaints and Suggestions app – a powerful CRUD (Create, Read,
 
 ## Features
 
-- **Structured Codebase:** Our code is not just functional but also organized and well-commented, utilizing MySQLi for efficiency and transparency.
+- **Structured Codebase:** The code is not just functional but also organized and well-commented, utilizing MySQLi for efficiency and transparency.
 - **User Management:** Users can be manually created through phpMyAdmin or SQL terminal commands.
 - **Authentication App:** A robust login app caters to two user types: admin and regular users.
 - **Error logs:** Errors are generated inside the `error.log` file for streamlined debugging.
