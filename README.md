@@ -38,7 +38,7 @@ Welcome to the Complaints and Suggestions app, a powerful CRUD (Create, Read, Up
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/khaledsAlshibani/complaints-and-suggestions-webapp.git
+   git clone https://github.com/khaledsAlshibani/simple-feedback-webapp.git
    ```
 
 2. **Import the Database:**
