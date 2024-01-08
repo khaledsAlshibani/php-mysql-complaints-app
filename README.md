@@ -28,11 +28,15 @@ Welcome to the Complaints and Suggestions app, a powerful CRUD (Create, Read, Up
 - **Feedback Submission:** Users can effortlessly submit complaints or suggestions.
 - **Feedback Management:** An intuitive interface empowers users to view, update, and delete their submitted feedback.
 
+![User Dashboard](./assets/screenshots/user-dashboard.png)
+
 ### Admin Capabilities:
 
 - **Feedback Review:** Admins can provide feedback on all complaints or suggestions submitted by users.
 - **Comprehensive Dashboard:** Admins have access to an overview of all feedback, ensuring efficient management.
 - **Feedback Administration:** Admins have complete control to update feedback content or remove entries.
+
+![Admin Dashboard](./assets/screenshots/admin-dashboard.png)
 
 ## Installation
 
@@ -42,7 +46,7 @@ Welcome to the Complaints and Suggestions app, a powerful CRUD (Create, Read, Up
    ```
 
 2. **Import the Database:**
-  - Navigate to the db folder and find the complaints_suggestions_db.sql file.
+  - Navigate to the assets > db folder and find the complaints_suggestions_db.sql file.
   - Create a MySQL database using your preferred method, such as http://localhost/phpmyadmin/index.php for localhost installations.
   - Import the database file into the created database.
 
