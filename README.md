@@ -12,9 +12,8 @@ Welcome to the Complaints and Suggestions app, a powerful CRUD (Create, Read, Up
 
 ## Key Technologies
 
-- **HTML**
-- **Backend:** PHP, MySQL
-- **Frontend:** Bootstrap 5.3.2
+- **Frontend:** HTML, Bootstrap 5.3.2
+- **Backend:** PHP, MySQLi, MySQL Database
 
 ## Features
 
