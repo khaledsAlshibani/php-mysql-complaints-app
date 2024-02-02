@@ -19,7 +19,7 @@ The Complaints and Suggestions Web App is a robust CRUD (Create, Read, Update, D
 ## Key Technologies
 
 - **Frontend:** HTML, Bootstrap 5.3.2
-- **Backend:** PHP, MySQLi Connect, MySQL Database
+- **Backend:** PHP, MySQLi Connection, MySQL Database
 
 ### Directory Structure
 
