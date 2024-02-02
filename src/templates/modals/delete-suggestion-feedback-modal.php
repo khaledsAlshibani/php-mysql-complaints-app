@@ -8,7 +8,7 @@
             <div class="modal-body">
                 Are you sure you want to delete this suggestion?
             </div>
-            <form action="functions.php" method="post">
+            <form action="core/operations.php" method="post">
                 <input type="hidden" name="suggestion_id" value="<?php echo $suggestion['id']; ?>">
                 <input type="hidden" name="remove_sug_feedback" value="1">
                 <div class="modal-footer">

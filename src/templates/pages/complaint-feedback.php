@@ -1,10 +1,7 @@
 <?php
-require_once 'functions.php';
+require_once '../../config.php';
 
-if (isLogout()) {
-    header("Location: index.php");
-    exit;
-}
+requireLogIn();
 
 $complaint_id = $_GET['id'];
 
@@ -15,9 +12,7 @@ $complaint = getComplaint($complaint_id, $mysqli);
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <?php include_once INC_DIR . 'headInclude.php' ?>
     <title>Add Feedback</title>
 </head>
 
@@ -25,7 +20,7 @@ $complaint = getComplaint($complaint_id, $mysqli);
     <div class="mb-4">
         <?php
         $navbar = true;
-        include('templates/header.php');
+        include(TEMPLATES_DIR . 'components/header.php');
         ?>
 
         <div class="container">
@@ -33,7 +28,7 @@ $complaint = getComplaint($complaint_id, $mysqli);
                 <div class="col-md-6">
                     <h2 class="mb-4" style="max-width: 80%;"><?php echo $complaint['feedback'] ? 'Update' : 'Add' ?> Feedback For The Complaint: <span class="fw-bold">"<?php echo $complaint['title']; ?>"</span></h2>
 
-                    <form method="post" action="functions.php">
+                    <form method="post" action="core/operations.php">
                         <input type="hidden" name="complaint_id" value="<?php echo $complaint_id; ?>">
 
                         <div class="mb-3">
@@ -50,9 +45,7 @@ $complaint = getComplaint($complaint_id, $mysqli);
         </div>
     </div>
 
-    <?php include('templates/footer.php') ?>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <?php include_once INC_DIR . 'footInclude.php' ?>
 </body>
 
 </html>

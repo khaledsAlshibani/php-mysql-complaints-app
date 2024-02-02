@@ -10,28 +10,16 @@ if ($navbar) :
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="dashboard.php">Dashboard</a>
+                    <a class="nav-link" href="index.php">Dashboard</a>
                     <?php if (getUserType() == 'user') : ?>
-                        <a class="nav-link" href="create.php">Create</a>
+                        <a class="nav-link"  href="templates/pages/create.php">Create</a>
                     <?php endif; ?>
                 </div>
+
                 <div class="navbar-nav ms-auto">
-                    <form method="post" action="">
-                        <button type="submit" class="btn btn-outline-light" name="logout" value="1">Logout</button>
-                    </form>
+                    <a class="btn btn-outline-light" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>
     </nav>
 <?php endif; ?>
-
-<header class="bg-dark py-5 <?php echo ($navbar) ? '' : 'border-top border-3 border-primary'; ?>">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <h1 class="display-4 text-white mb-4">Complaints and Suggestions System</h1>
-                <p class="lead text-white">Provide feedback, make suggestions, and stay connected with our system.</p>
-            </div>
-        </div>
-    </div>
-</header>

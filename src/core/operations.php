@@ -1,109 +1,14 @@
 <?php
-session_start();
+require_once '../config.php';
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'complaints_suggestions_db';
+// Login Form Data
+if (isset($_POST["username"]) && isset($_POST["password"])) {
+    $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
 
-ini_set("error_log", dirname(__FILE__) . "/error.log");
-
-try {
-    /* if the connection fails, a mysqli_sql_exception will be thrown */
-    $mysqli = new mysqli($host, $username, $password, $database);
-} catch (mysqli_sql_exception $e) {
-    error_log("Connection Error!" . $e->getMessage());
-    die("Connection failed!");
+    // Authenticate User
+    authenticateUser($username, $password, $mysqli);
 }
-
-// Authenticate User
-function authenticateUser($username, $password, $mysqli)
-{
-    try {
-        $query = "SELECT * FROM `users` WHERE `username` = ? AND `password` = ?";
-
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param('ss', $username, $password);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-
-        if ($user) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_type'] = $user['user_type'];
-
-            header("Location: dashboard.php");
-            exit();
-        } else {
-            header("Location: index.php");
-            exit();
-        }
-    } catch (mysqli_sql_exception $e) {
-        die("Error: " . $e->getMessage());
-    }
-}
-
-// Get User Id from Session
-function getUserId()
-{
-    return $_SESSION['user_id'];
-}
-
-// Get User Type from Session
-function getUserType()
-{
-    return $_SESSION['user_type'];
-}
-
-// Get User Full Name By Id
-function getFullNameById($user_id, $mysqli)
-{
-    try {
-        $query = "SELECT `full_name` FROM `users` WHERE `id` = ?";
-
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param('i', $user_id);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
-
-        if ($user) {
-            return $user['full_name'];
-        } else {
-            return "User not found";
-        }
-    } catch (mysqli_sql_exception $e) {
-        die("Error: " . $e->getMessage());
-    }
-}
-
-// Logout Start
-if (isset($_POST["logout"])) {
-    $logout = $_POST["logout"];
-
-    if ($logout) {
-        try {
-            header("Location: index.php");
-            session_destroy();
-
-            return TRUE;
-        } catch (PDOException $e) {
-            error_log("Error: " . $e->getMessage());
-            die();
-        }
-    }
-
-    return FALSE;
-}
-
-// Check if User is Logged Out
-function isLogout()
-{
-    return !isset($_SESSION['user_id']);
-}
-// Logout End
 
 // Create Item (complaint or suggestion)
 function createItem($type, $title, $description, $mysqli)
@@ -124,126 +29,13 @@ function createItem($type, $title, $description, $mysqli)
         $success = $stmt->execute();
 
         if ($success) {
-            header("Location: dashboard.php");
+            redirectByPath(HOME_DIR. "index.php");
             exit();
         } else {
-            header("Location: create.php");
+            redirectByPath(PAGES_DIR . "create.php");
             exit();
         }
     } catch (PDOException $e) {
-        die("Error: " . $e->getMessage());
-    }
-}
-
-// Get Complaints By User
-function getComplaintsByUser($mysqli)
-{
-    try {
-        $user_id = $_SESSION['user_id'];
-        $query = "SELECT * FROM `complaints` WHERE `user_id` = ? ORDER BY `id` DESC";
-
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param('i', $user_id);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-
-        $complaints = [];
-        while ($row = $result->fetch_assoc()) {
-            $complaints[] = $row;
-        }
-
-        return $complaints;
-    } catch (Exception $e) {
-        die("Error: " . $e->getMessage());
-    }
-}
-
-// Get All Complaints for Admin
-function getAllComplaints($mysqli)
-{
-    try {
-        $query = "SELECT * FROM `complaints` ORDER BY `id` DESC";
-        $stmt = $mysqli->prepare($query);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-
-        // Fetch the result as an associative array
-        $complaints = $result->fetch_all(MYSQLI_ASSOC);
-
-        return $complaints;
-    } catch (mysqli_sql_exception $e) {
-        die("Error: " . $e->getMessage());
-    }
-}
-
-// Get Single Complaint By Id
-function getComplaint($id, $mysqli)
-{
-    try {
-        $query = "SELECT * FROM `complaints` WHERE `id` = ? ORDER BY `id` DESC";
-        $stmt = $mysqli->prepare($query);
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        $complaint = $result->fetch_assoc();
-
-        return $complaint;
-    } catch (PDOException $e) {
-        error_log('getComplaint error: id: ' . $id);
-        die("Error: " . $e->getMessage());
-    }
-}
-
-// Get Suggestions By User
-function getSuggestionsByUser($mysqli)
-{
-    try {
-        $user_id = $_SESSION['user_id'];
-        $stmt = $mysqli->prepare("SELECT * FROM `suggestions` WHERE `user_id` = ? ORDER BY `id` DESC");
-        $stmt->bind_param('i', $user_id);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        $suggestions = $result->fetch_all(MYSQLI_ASSOC);
-
-        return $suggestions;
-    } catch (mysqli_sql_exception $e) {
-        die("Error: " . $e->getMessage());
-    }
-}
-
-// Get Single Suggestion By Id
-function getSuggestion($id, $mysqli)
-{
-    try {
-        $stmt = $mysqli->prepare("SELECT * FROM `suggestions` WHERE `id` = ? ORDER BY `id` DESC");
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        $suggestion = $result->fetch_assoc();
-
-        return $suggestion;
-    } catch (mysqli_sql_exception $e) {
-        die("Error: " . $e->getMessage());
-    }
-}
-
-// Get All Suggestions for Admin
-function getAllSuggestions($mysqli)
-{
-    try {
-        $stmt = $mysqli->prepare("SELECT * FROM `suggestions` ORDER BY `id` DESC");
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        $suggestions = $result->fetch_all(MYSQLI_ASSOC);
-
-        return $suggestions;
-    } catch (mysqli_sql_exception $e) {
         die("Error: " . $e->getMessage());
     }
 }
@@ -257,7 +49,7 @@ function addComplaintFeedback($complaint_id, $feedback, $mysqli)
         $stmt->bind_param('si', $feedback, $complaint_id);
         $stmt->execute();
 
-        header("Location: dashboard.php");
+        redirectByPath(HOME_DIR. "index.php");
         exit();
     } catch (mysqli_sql_exception $e) {
         die("Error: " . $e->getMessage());
@@ -272,7 +64,7 @@ function removeComplaintFeedback($complaint_id, $mysqli)
         $stmt->bind_param('i', $complaint_id);
         $stmt->execute();
 
-        header("Location: dashboard.php");
+        redirectByPath(HOME_DIR. "index.php");
         exit();
     } catch (mysqli_sql_exception $e) {
         die("Error: " . $e->getMessage());
@@ -288,7 +80,7 @@ function addSuggestionFeedback($suggestion_id, $feedback, $mysqli)
         $stmt->bind_param('si', $feedback, $suggestion_id);
         $stmt->execute();
 
-        header("Location: dashboard.php");
+        redirectByPath(HOME_DIR. "index.php");
         exit();
     } catch (mysqli_sql_exception $e) {
         die("Error: " . $e->getMessage());
@@ -303,7 +95,7 @@ function removeSuggestionFeedback($suggestion_id, $mysqli)
         $stmt->bind_param('i', $suggestion_id);
         $stmt->execute();
 
-        header("Location: dashboard.php");
+        redirectByPath(HOME_DIR. "index.php");
         exit();
     } catch (mysqli_sql_exception $e) {
         die("Error: " . $e->getMessage());
@@ -319,7 +111,7 @@ function updateComplaint($complaint_id, $title, $description, $mysqli)
         $stmt->bind_param('ssi', $title, $description, $complaint_id);
         $stmt->execute();
 
-        header("Location: dashboard.php");
+        redirectByPath(HOME_DIR. "index.php");
         exit();
     } catch (mysqli_sql_exception $e) {
         die("Error: " . $e->getMessage());
@@ -335,7 +127,7 @@ function updateSuggestion($suggestion_id, $title, $description, $mysqli)
         $stmt->bind_param('ssi', $title, $description, $suggestion_id);
         $stmt->execute();
 
-        header("Location: dashboard.php");
+        redirectByPath(HOME_DIR. "index.php");
         exit();
     } catch (mysqli_sql_exception $e) {
         die("Error: " . $e->getMessage());
@@ -352,7 +144,7 @@ function deleteComplaint($complaint_id, $delete_complaint, $mysqli)
             $stmt->bind_param('i', $complaint_id);
             $stmt->execute();
 
-            header("Location: dashboard.php");
+            redirectByPath(HOME_DIR. "index.php");
             exit();
         }
     } catch (mysqli_sql_exception $e) {
@@ -370,21 +162,12 @@ function deleteSuggestion($suggestion_id, $delete_suggestion, $mysqli)
             $stmt->bind_param('i', $suggestion_id);
             $stmt->execute();
 
-            header("Location: dashboard.php");
+            redirectByPath(HOME_DIR. "index.php");
             exit();
         }
     } catch (mysqli_sql_exception $e) {
         die("Error: " . $e->getMessage());
     }
-}
-
-// Login Form Data
-if (isset($_POST["username"]) && isset($_POST["password"])) {
-    $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
-    $password = htmlspecialchars($_POST["password"], ENT_QUOTES, 'UTF-8');
-
-    // Authenticate User
-    authenticateUser($username, $password, $mysqli);
 }
 
 // Create Item Form Data
