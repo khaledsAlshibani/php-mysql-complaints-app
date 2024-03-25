@@ -28,33 +28,33 @@ The codebase follows a structured and clear directory layout for easy understand
 ### User Management
 
 - Users are manually created through phpMyAdmin or SQL terminal commands.
-- Future versions will include a user registration form for a more user-friendly experience.
+- Future versions will include a user registration form.
 
 ### Authentication
 
-- A robust login system caters to two user types: admin and regular users.
+- There is a login system for admin and regular users.
 
 ### Error Logging
 
-- Errors are logged in the `logs/error.log` file for streamlined debugging.
+- Errors are logged in the `logs/error.log` file for debugging.
 
 ### Security
 
-- Passwords are stored in the database without proper hashing, posing a security risk.
-- Future releases will implement secure password storage practices.
+- Passwords are stored in the database without hashing, which is a security risk.
+- Future updates will implement secure password storage.
 
 ## User Capabilities
 
-- **Feedback Submission:** Users can effortlessly submit complaints or suggestions.
-- **Feedback Management:** An intuitive interface empowers users to view, update, and delete their submitted feedback.
+- **Feedback Submission:** Users can submit complaints or suggestions.
+- **Feedback Management:** Users can view, update, and delete their submitted feedback.
 
 ![User Dashboard](./assets/screenshots/user-dashboard.png)
 
 ## Admin Capabilities
 
 - **Feedback Review:** Admins can provide feedback on all complaints or suggestions submitted by users.
-- **Comprehensive Dashboard:** Admins have access to an overview of all feedback, ensuring efficient management.
-- **Feedback Administration:** Admins have complete control to update feedback content or remove entries.
+- **Comprehensive Dashboard:** Admins have access to an overview of all feedback.
+- **Feedback Administration:** Admins have complete control to update feedback content or delete them.
 
 ![Admin Dashboard](./assets/screenshots/admin-dashboard.png)
 
@@ -67,7 +67,7 @@ The codebase follows a structured and clear directory layout for easy understand
 
 2. **Import the Database:**
   - Navigate to the `assets > database` folder and find the `complaints_suggestions_db.sql` file.
-  - Create a MySQL database using your preferred method, such as [phpMyAdmin](http://localhost/phpmyadmin/index.php) for localhost installations.
+  - Create a MySQL database using your preferred method, such as `phpMyAdmin`.
   - Import the database file into the created database.
 
 ## Login Credentials
